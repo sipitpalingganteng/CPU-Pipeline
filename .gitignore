@@ -1,0 +1,26 @@
+# Vivado-generated files
+VivadoCPU/*.jou
+VivadoCPU/*.log
+VivadoCPU/*.str
+VivadoCPU/*.xpr~
+VivadoCPU/*.cache/
+VivadoCPU/*.hw/
+VivadoCPU/*.runs/
+VivadoCPU/*.sim/
+VivadoCPU/*.ip_user_files/
+VivadoCPU/*.gen/
+VivadoCPU/VivadoCPU.srcs/sources_1/ip/
+
+# Simulation outputs
+*.wdb
+*.pgm
+*.gif
+*.mp4
+VivadoCPU/VivadoCPU.srcs/sim_1/
+
+# Local/source media and extracted frames
+video_source/
+
+# Python cache
+__pycache__/
+*.pyc

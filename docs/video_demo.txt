@@ -1,0 +1,31 @@
+Simulation-only monochrome video demo
+
+The first demo uses an original 32x16 monochrome frame ROM controlled by a
+CPU-style memory-mapped write. It does not need an FPGA board:
+
+1. Compile mono_frame_rom.v, video_peripheral.v, and tb_mono_video.v in Vivado simulation.
+2. Run the simulation from the project simulation directory.
+3. The testbench writes values 0 through 3 to address 0x00001000.
+4. The peripheral selects the corresponding frame and writes frame_0.pgm through frame_3.pgm.
+5. Open the PGM files with an image viewer or convert them to an animation externally.
+
+Memory map:
+- 0x00001000: frame index register, low two bits select the frame.
+
+CPU integration:
+- `tb_cpu_video.v` runs the CPU with `addiu $t0, $zero, 3` followed by
+  `sw $t0, 0x1000($zero)`.
+- The CPU data-memory write bus drives `video_peripheral`.
+- The testbench exports `cpu_video_frame.pgm` after the CPU selects frame 3.
+- For the extracted source frames, add `bad_apple_frame_rom.v`,
+  `bad_apple_video_peripheral.v`, and use the updated `tb_cpu_video.v`.
+- The CPU integration test now selects frames 0 through 19 in sequence and
+  exports `cpu_video_frame_00.pgm` through `cpu_video_frame_19.pgm`.
+
+The demo is intentionally small and original. It establishes the frame-generation and export path before connecting a CPU-controlled frame register or a larger authorized frame dataset.
+
+Frame conversion:
+- Extract PGM frames into `video_source\frames`.
+- Run:
+  `python scripts\pgm_to_verilog_rom.py video_source\frames rtl\bad_apple_frame_rom.v`
+- The generated module stores one monochrome bit per pixel and replaces the placeholder pattern ROM in the next integration step.

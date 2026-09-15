@@ -1,0 +1,40 @@
+CPU Pipeline Project - Initial Specification
+
+Target ISA:
+MIPS32-style subset, chosen because the provided reference code and Mars 4.5 both align with MIPS workflows.
+
+Base instruction set:
+- R-type: addu, subu, slt, sltu, and, or, xor, nor, sll, srl, sra, jr
+- I-type: addiu, lui, lw, sw, beq, bne
+- J-type: jal
+
+Planned pipeline:
+1. IF - instruction fetch
+2. ID - decode and register read
+3. EX - ALU / branch compare
+4. MEM - load/store
+5. WB - register writeback
+
+First implementation goals:
+- correct sequential execution for the base instruction set
+- pipeline registers between stages
+- forwarding paths for EX/MEM and MEM/WB
+- stall handling for load-use hazards
+- branch resolution in the pipeline
+
+Bonus goals:
+- exception / interrupt support
+- simple cache
+- branch prediction
+
+Verification plan:
+- use Mars 4.5 for assembly-level programs
+- use Vivado 2019.2 RTL simulation for pipeline behavior
+- measure CPI / hazard behavior with representative test programs
+
+Performance counters:
+- cycle_count: active cycles after reset
+- retired_count: valid instructions reaching writeback
+- load_use_stall_count: cycles stalled by a load-use dependency
+- taken_branch_count: taken branches/jumps observed in decode
+- CPI estimate: cycle_count / retired_count

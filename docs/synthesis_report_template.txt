@@ -1,0 +1,50 @@
+CPU Pipeline Project - Synthesis and Performance Report
+
+Tool:
+- Vivado 2019.2
+
+Design:
+- 32-bit MIPS-style five-stage pipeline
+- Stages: IF, ID, EX, MEM, WB
+- Directed Vivado tests: hazard/forwarding and branch flush/target
+
+Functional verification:
+- Hazard test: PASS
+- Branch test: PASS
+- Hazard test counters: cycles=49, retired=43, load-use stalls=1, taken branches=0
+- Branch test counters: cycles=29, retired=23, load-use stalls=0, taken branches=1
+- Hazard test CPI: 49 / 43 = 1.14
+- Branch test CPI: 29 / 23 = 1.26
+
+Synthesis results from Vivado:
+- Target FPGA part: xc7k70tfbv676-1
+- LUTs: 1060 / 41000 (2.59%)
+- LUTRAM: 48 / 13400 (0.36%)
+- FFs: 378 / 82000 (0.46%)
+- I/O: 277 / 300 (92.33%)
+- BRAM: none used by the CPU core
+- DSP: none used by the CPU core
+- Clock constraint: 10 ns (100 MHz)
+- Setup WNS: +2.588 ns
+- Setup TNS: 0.000 ns
+- Setup failing endpoints: 0
+- Hold WHS: -0.027 ns
+- Hold THS: -4.821 ns
+- Hold failing endpoints: 352
+- Pulse-width slack: +4.090 ns
+- Setup-limited frequency estimate: approximately 134.9 MHz
+- Critical path: use Vivado Report Timing Summary for the exact path
+
+Timing conclusion:
+- Setup timing passes for the 100 MHz constraint.
+- Hold timing is not fully met and must be reported as a limitation.
+
+Limitation:
+Because no FPGA board or target part was provided, this project will report RTL synthesis and simulation performance. Place-and-route and hardware demonstration are not required for the current deliverable.
+
+Completed Vivado flow:
+1. Run Open Elaborated Design and confirm the module hierarchy.
+2. Run Synthesis.
+3. Open Synthesized Design.
+4. Record Utilization and Timing Summary.
+5. Include the two passing simulation logs and representative waveforms.
