@@ -8,6 +8,17 @@ Base instruction set:
 - I-type: addiu, lui, lw, sw, beq, bne
 - J-type: jal
 
+Compiler-support instructions (added so clang-generated MIPS-I code runs):
+- I-type: slti, andi, ori, blez, bgez
+- J-type: j
+
+Memory model:
+- The instruction/data SRAM read data is combinational. The load result is
+  captured into the MEM pipeline register at the EX/MEM boundary, so a load
+  works whether or not the next instruction uses its result.
+- Branches are resolved in ID and the following instruction is flushed, so
+  there is no delay slot. jal links PC + 4 (not PC + 8).
+
 Planned pipeline:
 1. IF - instruction fetch
 2. ID - decode and register read

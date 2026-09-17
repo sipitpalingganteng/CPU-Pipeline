@@ -10,17 +10,21 @@ VivadoCPU/*.sim/
 VivadoCPU/*.ip_user_files/
 VivadoCPU/*.gen/
 VivadoCPU/VivadoCPU.srcs/sources_1/ip/
+/vivado*.jou
+/vivado*.log
+/vivado*.backup.jou
+/vivado*.backup.log
 
 # Simulation outputs
 *.wdb
-*.pgm
 *.gif
 *.mp4
 VivadoCPU/VivadoCPU.srcs/sim_1/
 
-# Local/source media and extracted frames
-video_source/
-
 # Python cache
 __pycache__/
 *.pyc
+
+# Verilator + raylib frontend build outputs
+verilator/obj_dir/
+verilator/build/

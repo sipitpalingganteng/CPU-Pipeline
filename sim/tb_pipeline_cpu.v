@@ -22,7 +22,7 @@ module tb_pipeline_cpu;
     reg [31:0] data_mem [0:255];
     integer i;
 
-    pipeline_cpu dut (
+    mips_pipeline dut (
         .clk(clk),
         .resetn(resetn),
         .inst_sram_en(inst_sram_en),
@@ -40,6 +40,27 @@ module tb_pipeline_cpu;
         .debug_wb_rf_wnum(debug_wb_rf_wnum),
         .debug_wb_rf_wdata(debug_wb_rf_wdata)
     );
+
+    // Hierarchical probes: XSim only shows the testbench's own nets and the
+    // DUT ports, so these references force the pipeline internals into the
+    // wave window (add the w_* signals in simulation).
+    wire [31:0] w_fs_pc      = dut.fs_pc;
+    wire        w_fs_valid   = dut.fs_valid;
+    wire [31:0] w_ds_inst    = dut.ds_inst;
+    wire        w_ds_valid   = dut.ds_valid;
+    wire        w_es_valid   = dut.es_valid;
+    wire        w_ms_valid   = dut.ms_valid;
+    wire        w_ws_valid   = dut.ws_valid;
+    wire        w_stall_if   = dut.stall_if;
+    wire        w_stall_id   = dut.stall_id;
+    wire        w_br_taken   = dut.br_taken;
+    wire [31:0] w_br_target  = dut.br_target;
+    wire [31:0] w_nextpc     = dut.nextpc;
+    wire        w_es_rmem    = dut.es_res_from_mem;
+    wire [ 4:0] w_es_dest    = dut.es_dest;
+    wire        w_fwd_rs_mem = dut.forward_rs_from_mem;
+    wire        w_fwd_rt_mem = dut.forward_rt_from_mem;
+    wire [31:0] w_ms_mem_res = dut.ms_mem_result;
 
     always @(*) begin
         case (inst_sram_addr)

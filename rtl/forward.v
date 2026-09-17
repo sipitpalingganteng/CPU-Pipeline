@@ -1,4 +1,9 @@
-module hazard_unit (
+// forward.v - forwarding unit
+//
+// Selects the freshest value for each register-file read port: the EX result,
+// the MEM/WB result, or the value written back on the same cycle. EX loads
+// are not forwarded (they are stalled by hazard.v instead).
+module forward (
     input        id_rs_valid,
     input        id_rt_valid,
     input  [4:0] id_rs,
@@ -8,23 +13,11 @@ module hazard_unit (
     input        ex_res_from_mem,
     input  [4:0] mem_dest,
     input        mem_gr_we,
-    output       stall_if,
-    output       stall_id,
     output       forward_rs_from_ex,
     output       forward_rs_from_mem,
     output       forward_rt_from_ex,
     output       forward_rt_from_mem
 );
-    wire ex_load_hazard_rs = ex_res_from_mem && ex_gr_we &&
-                             (ex_dest != 5'b0) && id_rs_valid &&
-                             (ex_dest == id_rs);
-    wire ex_load_hazard_rt = ex_res_from_mem && ex_gr_we &&
-                             (ex_dest != 5'b0) && id_rt_valid &&
-                             (ex_dest == id_rt);
-
-    assign stall_if = ex_load_hazard_rs || ex_load_hazard_rt;
-    assign stall_id = stall_if;
-
     assign forward_rs_from_ex = ex_gr_we && !ex_res_from_mem &&
                                 (ex_dest != 5'b0) && id_rs_valid &&
                                 (ex_dest == id_rs);
